@@ -6,6 +6,50 @@
   <title>Balik UP Min Home</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
+
+  <!--Script for protected routes which is inaccessible without authentication.-->
+    <script type="module">
+        import { supabase } from './supabaseClient.js';  // Make sure to import the Supabase client
+
+        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+
+        if (!token) {
+        // Redirect to login if token is not found in either storage
+        window.location.href = 'login.html';
+        }
+
+        // Retrieve user session and email from Supabase
+        async function fetchUser() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+
+            if (error) {
+                console.error("Error fetching session:", error);
+                return;
+            }
+
+            if (session && session.user) {
+                const email = session.user.email;
+                document.getElementById('email-display').textContent = email;
+            } else {
+                console.error("No user session found.");
+                window.location.href = 'login.html'; 
+            }
+        }
+
+        fetchUser();  // Call the function to fetch the user and update the email
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            // Clear the session or token from localStorage or sessionStorage
+            localStorage.removeItem('access_token');
+            sessionStorage.removeItem('access_token');
+
+            // Redirect the user to the login page
+            window.location.href = 'login.html';
+        });
+    </script>
+
 </head>
 
 <body>
@@ -47,7 +91,7 @@
                 aria-labelledby="offcanvasNavbarLabel"
             >
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Username</h5>
+                    <h5 class="offcanvas-title" id="email-display">Email</h5>
                     <button
                         type="button"
                         class="btn-close"
@@ -61,7 +105,7 @@
                             <a class="nav-link" href="myreports.html">My reports</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.html">Sign out</a>
+                            <a class="nav-link" href="#" id="logout-btn">Sign out</a>
                         </li>
                     </ul>
                 </div>
