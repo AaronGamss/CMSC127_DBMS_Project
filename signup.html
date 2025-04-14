@@ -75,7 +75,6 @@
     }
 
     try {
-        // Try signing in to check if the user already exists
         const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
             email,
             password,
