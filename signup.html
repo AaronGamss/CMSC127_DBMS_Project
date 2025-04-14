@@ -39,7 +39,7 @@
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" style="accent-color: #EAE8E5;" />
                         <label class="form-check-label" for="rememberMe" style="color: #EAE8E5;">Remember me</label>
-                      </div>
+                    </div>
                     <br>
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn signup-btn" style="background-color: #EAE8E5; color: #333333; width: 50%; font-weight: 650;">Sign up</button>
@@ -59,28 +59,69 @@
     <!--Script to import the authentication functions-->
     <script type="module">
         import { supabase } from './supabaseClient.js'
-      
+    
         const form = document.querySelector('form')
-      
+    
         form.addEventListener('submit', async (e) => {
-          e.preventDefault()
-      
-          const email = document.getElementById('email').value
-          const password = document.getElementById('password').value
-      
-          const { data, error } = await supabase.auth.signUp({
+    e.preventDefault()
+
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+    const confirmPassword = document.getElementById('confirmPassword').value
+
+    if (password !== confirmPassword) {
+        alert('Passwords do not match.')
+        return
+    }
+
+    try {
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
             email,
-            password
-          })
-      
-          if (error) {
-            alert('Signup failed: ' + error.message)
-          } else {
-            alert('Signup successful! Please check your email to confirm.')
-            window.location.href = 'login.html'
-          }
+            password,
         })
-      </script>
+
+        if (!signInError) {
+            alert('This email is already registered. Please login instead.')
+            return
+        }
+
+         if (signInError.message.toLowerCase().includes("invalid login credentials")) {
+            alert('This email is already registered. Please login instead.')
+            return
+        }
+
+        if (signInError.message.toLowerCase().includes("user not found")) {
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password
+            })
+
+            if (error) {
+                alert('Signup failed: ' + error.message)
+                return
+            }
+
+            if (data.user) {
+                alert('Signup successful! Please check your email to confirm your account.')
+                window.location.href = 'login.html'
+            } else {
+                alert('Signup failed: Unknown error.')
+            }
+
+            return
+        }
+        alert('An unexpected error occurred. Please try again later.')
+        console.error('Unexpected error during sign-in check:', signInError)
+
+    } catch (err) {
+        console.error('Unexpected error:', err)
+        alert('An unexpected error occurred. Please try again later.')
+    }
+})
+
+    </script>
+      
+      
 
 </body>
 </html>
