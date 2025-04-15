@@ -17,13 +17,13 @@
             </a>
             <ul class="navbar-nav d-flex flex-row gap-5 ms-auto me-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="home.html">home</a>
+                    <a class="nav-link active" aria-current="page" href="home.html">home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="lost.html">lost</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="found.html">found</a>
+                    <a class="nav-link" href="found.html">found</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="report.html">report</a>
@@ -45,25 +45,34 @@
                 tabindex="-1"
                 id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel"
+                style="background-color: #333333; color: #EAE8E5;"
             >
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Username</h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                    ></button>
+                <h5 class="offcanvas-title" id="email-display" style="font-weight: 700; font-size: 1.4rem; margin-bottom: 0px; margin-top: 9px;">
+                    Email
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                    style="filter: invert(1); margin-top: 6px;"
+                ></button>
                 </div>
+                <hr style="border: 1px solid #EAE8E5; opacity: 0.5; width: 100%; margin-bottom: 0px;" />
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="myreports.html">My reports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.html">Sign out</a>
-                        </li>
-                    </ul>
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item mb-3">
+                    <a class="nav-link" href="myreports.html" style="color: #EAE8E5; font-weight: 600;">
+                        My Reports
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout-btn" style="color: #EAE8E5; font-weight: 600;">
+                        Sign Out
+                    </a>
+                    </li>
+                </ul>
                 </div>
             </div>
         </div>
