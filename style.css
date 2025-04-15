@@ -32,3 +32,15 @@ input.form-control:focus {
     border-color: #EAE8E5;
     box-shadow: none;
 }
+
+.carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0.4;
+    margin: 0 5px;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
