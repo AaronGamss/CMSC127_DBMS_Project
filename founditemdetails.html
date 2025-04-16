@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balik UP Min Found Item Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <nav class="navbar fixed-top" style="background-color: #EAE8E5">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="home.html">
+                BALIK UP MIN
+                <img src="logo.png" alt="Logo" width="30" height="30" class="ms-2" />
+            </a>
+            <ul class="navbar-nav d-flex flex-row gap-5 ms-auto me-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="lost.html">lost</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="found.html">found</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="report.html">report</a>
+                </li>
+            </ul>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+            <div
+                class="offcanvas offcanvas-end"
+                tabindex="-1"
+                id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel"
+                style="background-color: #333333; color: #EAE8E5;"
+            >
+                <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="email-display" style="font-weight: 700; font-size: 1.4rem; margin-bottom: 0px; margin-top: 10px;">
+                    Email
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                    style="filter: invert(1); margin-top: 8px;"
+                ></button>
+                </div>
+                <hr style="border: 1px solid #EAE8E5; opacity: 0.5; width: 100%; margin-bottom: 0px;" />
+                <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item mb-3">
+                    <a class="nav-link" href="myreports.html" style="color: #EAE8E5; font-weight: 600;">
+                        My Reports
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout-btn" style="color: #EAE8E5; font-weight: 600;">
+                        Sign Out
+                    </a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <h2 class="mb-3" style="font-weight: 650; font-size: 2.2rem; padding-top: 20px; padding-bottom: 15px;">Item Name</h2>
+                            <img src="found.jpg" alt="Lost Item" class="img-fluid rounded" style="max-height: 400px; width: 80%;" />
+                        </div>
+                        <div class="mb-4" style="padding-left: 10%;">
+                            <h4 class="mb-3" style="font-weight: 650; font-size: 1.8rem; color: #988F78; padding-bottom: 10px;">Item Details</h4>
+                            <p><strong>Found by:</strong> Username</p>
+                            <p><strong>Category:</strong> Item Category</p>
+                            <p><strong>Date Found:</strong> Date</p>
+                            <p><strong>Location Found:</strong> Location</p>
+                            <p><strong>Description:</strong> Detailed description of the lost item.</p>
+                        </div>
+                        <hr style="border: 2px solid #000000; width: 80%; margin: 0 auto;" />
+                        <div class="mt-4" style="padding-left: 10%;">
+                            <h4 class="mb-3" style="font-weight: 650; font-size: 1.8rem; color: #988F78; padding-bottom: 10px;">Contact Details</h4>
+                            <p><strong>Messenger Account Name:</strong> Messenger Name</p>
+                            <p><strong>Phone Number:</strong> Phone Number</p>
+                            <p><strong>Email:</strong> Email Address</p>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <a href="found.html" class="btn" style="background-color: #333333; color: white; font-weight: 500; box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);">
+                        Back to Listings <span class="ms-2">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
