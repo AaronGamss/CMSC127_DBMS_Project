@@ -43,6 +43,7 @@ input.form-control:focus {
 
 .carousel-indicators .active {
     opacity: 1;
+
 }
 
 .listing-card {
@@ -124,5 +125,4 @@ input.form-control:focus {
 .search-bar i {
   color: #6c757d;
 }
-
 
