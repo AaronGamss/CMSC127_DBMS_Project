@@ -97,7 +97,7 @@
                             <div>
                             <h5 class="card-title item-name">Wallet</h5>
                             <p class="card-text mb-1 item-reporter">Posted by: Jamie</p>
-                            <p class="card-text mb-1 item-location">Location: Canteen</p>
+                            <p class="card-text mb-1 item-location">Location: Kalimudan</p>
                             <p class="card-text mb-1">Date: 2024-04-10</p>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                   <div>
                     <h5 class="card-title item-name">Powerbank</h5>
                     <p class="card-text mb-1 item-reporter">Posted by: Bea</p>
-                    <p class="card-text mb-1 item-location">Location: AS Walk</p>
+                    <p class="card-text mb-1 item-location">Location: CSM</p>
                     <p class="card-text mb-1">Date: 2024-04-05</p>
                   </div>
                 </div>
@@ -135,7 +135,7 @@
                   <div>
                     <h5 class="card-title item-name">Water Bottle</h5>
                     <p class="card-text mb-1 item-reporter">Posted by: Carlo</p>
-                    <p class="card-text mb-1 item-location">Location: Gym</p>
+                    <p class="card-text mb-1 item-location">Location: Sports Complex</p>
                     <p class="card-text mb-1">Date: 2024-04-07</p>
                   </div>
                 </div>
@@ -205,25 +205,26 @@
         const searchBar = document.getElementById("search-bar");
         const itemCards = document.querySelectorAll(".item-card");
         const noResults = document.getElementById("no-results");
-
+    
         searchBar.addEventListener("input", () => {
           const term = searchBar.value.toLowerCase();
           let foundAny = false;
-
+    
           itemCards.forEach((card) => {
             const name = card.querySelector(".item-name").textContent.toLowerCase();
-            const location = card.querySelector(".item-location").textContent.toLowerCase();
-            const reporter = card.querySelector(".item-reporter").textContent.toLowerCase();
-
+            const location = card.querySelector(".item-location").textContent.replace("Location:", "").trim().toLowerCase();
+            const reporter = card.querySelector(".item-reporter").textContent.replace("Posted by:", "").trim().toLowerCase();
+    
             const matches = name.includes(term) || location.includes(term) || reporter.includes(term);
             card.style.display = matches ? "block" : "none";
-
+    
             if (matches) foundAny = true;
           });
-
+    
           noResults.style.display = foundAny ? "none" : "block";
         });
-      </script>
+    </script>
+    
 
 </body>
 </html>
