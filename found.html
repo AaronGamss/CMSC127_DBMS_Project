@@ -42,116 +42,7 @@
             </button>
         </div>
     </nav>
-    
-    <!--TEMPORARY: These are sample/static items for testing search functionality.
-        TO BACKEND:
-        Please render the dynamic item list using the same structure and class names:
-        - Wrapper: .item-card
-        - Name: .item-name
-        - Reporter: .item-reporter
-        - Location: .item-location
-        This ensures compatibility with the existing search feature in the JavaScript.
-        -->
-
-
-    <div class="container mt-5 pt-5" style="max-width: 800px;">
-        <!-- Heading + Search -->
-        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-            <h2 class="fw-bold mb-0">Found Listings</h2>
-
-                <!-- Search Bar with Search Icon Inside -->
-            <div class="position-relative" style="max-width: 300px;">
-                <input type="text" id="search-bar" class="form-control ps-5 bg-white" placeholder="Search..." />
-                <i class="bi bi-search position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); color: #000;"></i>
-            </div>
-        </div>
-
-        <!-- Subtext -->
-        <p class="mb-3 text-muted">search results...</p>
-
-        <!-- Item Cards -->
-        <div id="item-list">
-            <div class="mb-4 item-card">
-                <div class="card shadow-sm">
-                    <div class="card-body d-flex justify-content-between">
-                        <div class="d-flex">
-                            <div class="me-3" style="background-color: #9B8C73; width: 100px; height: 100px; border-radius: 6px;"></div>
-                            <div>
-                            <h5 class="card-title item-name">Umbrella</h5>
-                            <p class="card-text mb-1 item-reporter">Posted by: Alex</p>
-                            <p class="card-text mb-1 item-location">Location: Library</p>
-                            <p class="card-text mb-1">Date: 2024-03-01</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end">
-                            <a href="#" class="btn btn-sm px-4 py-2" style="background-color: #333; color: white; border-radius: 8px;">More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4 item-card">
-                <div class="card shadow-sm">
-                    <div class="card-body d-flex justify-content-between">
-                        <div class="d-flex">
-                            <div class="me-3" style="background-color: #9B8C73; width: 100px; height: 100px; border-radius: 6px;"></div>
-                            <div>
-                            <h5 class="card-title item-name">Wallet</h5>
-                            <p class="card-text mb-1 item-reporter">Posted by: Jamie</p>
-                            <p class="card-text mb-1 item-location">Location: Kalimudan</p>
-                            <p class="card-text mb-1">Date: 2024-04-10</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end">
-                            <a href="#" class="btn btn-sm px-4 py-2" style="background-color: #333; color: white; border-radius: 8px;">More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-4 item-card">
-            <div class="card shadow-sm">
-              <div class="card-body d-flex justify-content-between">
-                <div class="d-flex">
-                  <div class="me-3" style="background-color: #9B8C73; width: 100px; height: 100px; border-radius: 6px;"></div>
-                  <div>
-                    <h5 class="card-title item-name">Powerbank</h5>
-                    <p class="card-text mb-1 item-reporter">Posted by: Bea</p>
-                    <p class="card-text mb-1 item-location">Location: CSM</p>
-                    <p class="card-text mb-1">Date: 2024-04-05</p>
-                  </div>
-                </div>
-                <div class="d-flex align-items-end">
-                    <a href="#" class="btn btn-sm px-4 py-2" style="background-color: #333; color: white; border-radius: 8px;">More</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="mb-4 item-card">
-            <div class="card shadow-sm">
-              <div class="card-body d-flex justify-content-between">
-                <div class="d-flex">
-                  <div class="me-3" style="background-color: #9B8C73; width: 100px; height: 100px; border-radius: 6px;"></div>
-                  <div>
-                    <h5 class="card-title item-name">Water Bottle</h5>
-                    <p class="card-text mb-1 item-reporter">Posted by: Carlo</p>
-                    <p class="card-text mb-1 item-location">Location: Sports Complex</p>
-                    <p class="card-text mb-1">Date: 2024-04-07</p>
-                  </div>
-                </div>
-                <div class="d-flex align-items-end">
-                    <a href="#" class="btn btn-sm px-4 py-2" style="background-color: #333; color: white; border-radius: 8px;">More</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        <!-- No Results Message -->
-        <p id="no-results" class="text-danger" style="display: none;">No results found.</p>
-    </div>
-
-  
+      
             <div
                 class="offcanvas offcanvas-end"
                 tabindex="-1"
@@ -189,6 +80,8 @@
             </div>
         </div>
     </nav>
+
+    <!-- Found Listings-->
     <main class="container mt-5 pt-5">
         <!-- Header -->
         <div class="listing-header">
@@ -196,67 +89,76 @@
             <h3 class="fw-bold mb-1">Found Listings</h3>
             <p class="small text-muted">search results...</p>
           </div>
-          <div class="search-container">
-            <div class="search-bar">
-              <i class="bi bi-search me-2"></i>
-              <input type="text" placeholder="Search..." />
-              <button class="btn btn-link p-0 ms-2"><i class="bi bi-list fs-5"></i></button>
-            </div>
+
+        <!-- Search Bar-->
+        <div class="search-container">
+          <div class="search-bar d-flex align-items-center">
+            <i class="bi bi-search me-2"></i>
+            <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or reporter...">
+            <button class="btn btn-link p-0 ms-2">
+              <i class="bi bi-list fs-5"></i>
+            </button>
           </div>
         </div>
+      </div>
     
         <!-- Found Listing Cards -->
-        <div class="d-flex flex-column gap-3 mt-4">
-          
-          <div class="listing-card">
+        <div class="d-flex flex-column gap-3 mt-4" id="listingContainer">
+
+          <div class="listing-card item-card">
             <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
             <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="founditemdetails.html"button class="btn btn-sm btn-secondary" style="background-color: #333333;">More</button></a>
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Red Umbrella</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: John Santos</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: CHSS Lobby</p>
+              <p style="margin-bottom: 20px;">Date: April 18, 2025</p>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
             </div>
           </div>
-    
-          <div class="listing-card">
+
+          <div class="listing-card item-card">
             <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
             <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <<a href="founditemdetails.html"button class="btn btn-sm btn-secondary" style="background-color: #333333;">More</button></a>
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: UP Mindanao ID</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Maria Cruz</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: Admin Building</p>
+              <p style="margin-bottom: 20px;">Date: April 17, 2025</p>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
             </div>
           </div>
-          <div class="listing-card">
+
+          <div class="listing-card item-card">
             <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+              <img src="lost.jpg" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
             <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="founditemdetails.html"button class="btn btn-sm btn-secondary" style="background-color: #333333;">More</button></a>
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Wallet</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Anna Reyes</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: Kasadya Grounds</p>
+              <p style="margin-bottom: 20px;">Date: April 15, 2025</p>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
             </div>
           </div>
-          <div class="listing-card">
+
+          <div class="listing-card item-card">
             <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
             <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="founditemdetails.html"button class="btn btn-sm btn-secondary" style="background-color: #333333;">More</button></a>
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Math Notebook</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Carlos Dela Peña</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: Library</p>
+              <p style="margin-bottom: 20px;">Date: April 14, 2025</p>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
             </div>
           </div>
+
+        </div>
+
 
         </div>
       </main>
@@ -265,6 +167,7 @@
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    
     
     <!--NOTE TO BACKEND:
         This search function depends on the presence of DOM elements with specific class names:
@@ -277,28 +180,48 @@
     -->
 
     <script>
-        const searchBar = document.getElementById("search-bar");
-        const itemCards = document.querySelectorAll(".item-card");
-        const noResults = document.getElementById("no-results");
-    
-        searchBar.addEventListener("input", () => {
+      const searchBar = document.getElementById("search-bar");
+      const itemCards = document.querySelectorAll(".item-card");
+      const listingContainer = document.getElementById("listingContainer");
+  
+      searchBar.addEventListener("input", () => {
           const term = searchBar.value.toLowerCase();
           let foundAny = false;
-    
+  
           itemCards.forEach((card) => {
-            const name = card.querySelector(".item-name").textContent.toLowerCase();
-            const location = card.querySelector(".item-location").textContent.replace("Location:", "").trim().toLowerCase();
-            const reporter = card.querySelector(".item-reporter").textContent.replace("Posted by:", "").trim().toLowerCase();
-    
-            const matches = name.includes(term) || location.includes(term) || reporter.includes(term);
-            card.style.display = matches ? "block" : "none";
-    
-            if (matches) foundAny = true;
+              const name = card.querySelector(".item-name").textContent.toLowerCase();
+              const location = card.querySelector(".item-location").textContent.replace("Location:", "").trim().toLowerCase();
+              const reporter = card.querySelector(".item-reporter").textContent.replace("Posted by:", "").trim().toLowerCase();
+  
+              const matches = name.includes(term) || location.includes(term) || reporter.includes(term);
+  
+              if (matches) {
+                  card.classList.remove("d-none");
+                  foundAny = true;
+              } else {
+                  card.classList.add("d-none");
+              }
           });
-    
-          noResults.style.display = foundAny ? "none" : "block";
-        });
-    </script>
+  
+          // Check if "no results" message already exists
+          let noResults = document.getElementById("no-results");
+  
+          if (!foundAny) {
+              if (!noResults) {
+                  noResults = document.createElement("p");
+                  noResults.id = "no-results";
+                  noResults.className = "text-muted text-center mt-3";
+                  noResults.textContent = "No matching results.";
+                  listingContainer.appendChild(noResults);
+              }
+          } else {
+              if (noResults) {
+                  noResults.remove();
+              }
+          }
+      });
+  </script>
+  
     
 
 </body>
