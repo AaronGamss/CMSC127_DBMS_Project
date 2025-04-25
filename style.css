@@ -126,3 +126,15 @@ input.form-control:focus {
   color: #6c757d;
 }
 
+#fileUpload::-webkit-file-upload-button {
+  background-color: #988F78;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#fileUpload::-webkit-file-upload-button:hover {
+  background-color: #7a715e;
+}

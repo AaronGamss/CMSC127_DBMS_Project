@@ -78,6 +78,86 @@
         </div>
     </nav>
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="text-start" style="max-width: 900px; margin: 0 auto;">
+        <h1 style="font-size: 3.0rem; font-weight: bold;">Report Lost Form</h1>
+        <br>
+        <p>Fill out the form below to report your lost item. Provide as many details as possible to increase the chances of recovery.</p>
+    </div>
+
+    <div class="container mt-5 pt-5" style="visibility: visible; background-color: white; padding: 70px; border-radius: 10px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); max-width: 900px;">
+        <form class="mt-4" id="reportForm">
+            <div class="mb-3">
+                <label for="itemName" class="form-label">Item Name <span style="color: #988F78;">*</span></label>
+                <input type="text" class="form-control" id="itemName" placeholder="Enter the name of the lost item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category <span style="color: #988F78;">*</span></label>
+                <select class="form-select" id="category" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;">
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="documents">Documents</option>
+                    <option value="others">Others</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description <span style="color: #988F78;">*</span></label>
+                <textarea class="form-control" id="description" rows="3" placeholder="Provide a detailed description of the lost item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="fileUpload" class="form-label">File Upload</label>
+                <input type="file" class="form-control" id="fileUpload" style="border: 2px solid #E8E8E8; background-color: #FFFFFF; color: white;" />
+            </div>
+            <div class="mb-3">
+                <label for="dateLost" class="form-label">Date Lost <span style="color: #988F78;">*</span></label>
+                <input type="date" class="form-control" id="dateLost" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="lostLocation" class="form-label">Lost Location <span style="color: #988F78;">*</span></label>
+                <input type="text" class="form-control" id="lostLocation" placeholder="Enter the location where the item was lost" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="reporterName" class="form-label">Name of Reporter <span style="color: #988F78;">*</span></label>
+                <input type="text" class="form-control" id="reporterName" placeholder="Enter your name" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="messengerAccount" class="form-label">Messenger Account Name <span style="color: #988F78;">*</span></label>
+                <input type="text" class="form-control" id="messengerAccount" placeholder="Enter your Messenger account name" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="contactEmail" class="form-label">Contact Email</label>
+                <input type="email" class="form-control" id="contactEmail" placeholder="Enter your email address" style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number <span style="color: #988F78;">*</span></label>
+                <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+            </div>
+            <br>
+            <div class="text-end">
+                <button type="submit" class="btn" id="submitButton" disabled style="background-color: #988F78; color: white; width: 150px; font-weight: 650;">Report</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('reportForm');
+        const submitButton = document.getElementById('submitButton');
+
+        form.addEventListener('input', () => {
+            const requiredFields = ['itemName', 'category', 'description', 'dateLost', 'lostLocation', 'reporterName', 'messengerAccount', 'phoneNumber'];
+            const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
+            submitButton.disabled = !allFilled;
+        });
+    </script>
+    
+    <br>
+    <br>
+    <br>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
