@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Balik UP Min My Reports</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -78,6 +80,122 @@
         </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+
+        <!-- My reports-->
+        <main class="container mt-5 pt-5">
+            <!-- Header -->
+            <div class="listing-header">
+              <div>
+                <h3 class="fw-bold mb-1">My Reposts</h3>
+                <p class="small text-muted">search results...</p>
+              </div>
+    
+            <!-- Search Bar-->
+            <div class="search-container">
+              <div class="search-bar d-flex align-items-center">
+                <i class="bi bi-search me-2"></i>
+                <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or status...">
+                <button class="btn btn-link p-0 ms-2">
+                  <i class="bi bi-list fs-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        
+            <!-- Item Report cards -->
+            <div class="d-flex flex-column gap-3 mt-4" id="listingContainer">
+    
+              <div class="listing-card item-card">
+                <div class="image-placeholder">
+                  <img src="https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXBwbGUlMjBpcGhvbmV8ZW58MHx8MHx8fDA%3D" alt="Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+                </div>
+                <div class="flex-grow-1">
+                  <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Cellphone</p>
+                  <p class="item-status" style="margin-bottom: 66px;">Status: Lost</p>
+                  <p class="item-location" style="margin-bottom: 66px;">Location: CHSS Lobby</p>
+                  <p style="margin-bottom: 20px;">Date: April 26, 2025</p>
+                  <a href="#" class="btn btn-sm btn-secondary" style="background-color: #0000;">Resolve</a>
+                </div>
+              </div>
+
+              <div class="listing-card item-card">
+                <div class="image-placeholder">
+                  <img src="https://media.karousell.com/media/photos/products/2024/4/9/used_high_quality_yonex_carbon_1712658302_72da5535_progressive.jpg" alt="Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+                </div>
+                <div class="flex-grow-1">
+                  <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Badminton Racket</p>
+                  <p class="item-status" style="margin-bottom: 66px;">Status: Found</p>
+                  <p class="item-location" style="margin-bottom: 66px;">Location: CHSS Lobby</p>
+                  <p style="margin-bottom: 20px;">Date: April 26, 2025</p>
+                  <a href="#" class="btn btn-sm btn-secondary" style="background-color: #0000;">Resolve</a>
+                </div>
+              </div>
+    
+    
+            </div>
+    
+    
+            </div>
+          </main>
+        
+        
+    
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+        
+        
+        <!--NOTE TO BACKEND:
+  
+            - .item-card
+            - .item-name
+            - .item-status
+            - .item-location
+
+        -->
+    
+        <script>
+          const searchBar = document.getElementById("search-bar");
+          const itemCards = document.querySelectorAll(".item-card");
+          const listingContainer = document.getElementById("listingContainer");
+      
+          searchBar.addEventListener("input", () => {
+              const term = searchBar.value.toLowerCase();
+              let foundAny = false;
+      
+              itemCards.forEach((card) => {
+                  const name = card.querySelector(".item-name").textContent.toLowerCase();
+                  const location = card.querySelector(".item-location").textContent.replace("Location:", "").trim().toLowerCase();
+                  const status = card.querySelector(".item-status").textContent.replace("Posted by:", "").trim().toLowerCase();
+      
+                  const matches = name.includes(term) || location.includes(term) || status.includes(term);
+      
+                  if (matches) {
+                      card.classList.remove("d-none");
+                      foundAny = true;
+                  } else {
+                      card.classList.add("d-none");
+                  }
+              });
+      
+              // Check if "no results" message already exists
+              let noResults = document.getElementById("no-results");
+      
+              if (!foundAny) {
+                  if (!noResults) {
+                      noResults = document.createElement("p");
+                      noResults.id = "no-results";
+                      noResults.className = "text-muted text-center mt-3";
+                      noResults.textContent = "No matching results.";
+                      listingContainer.appendChild(noResults);
+                  }
+              } else {
+                  if (noResults) {
+                      noResults.remove();
+                  }
+              }
+          });
+      </script>
+    
 </body>
 </html>
