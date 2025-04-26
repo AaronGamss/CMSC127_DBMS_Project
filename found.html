@@ -85,49 +85,53 @@
     <main class="container mt-5 pt-5">
         <!-- Header -->
         <div class="listing-header">
-          <div>
-            <h3 class="fw-bold mb-1">Found Listings</h3>
+            <div>
+            <h1 class="fw-bold mb-1" style="font-size: 3.0rem;">Found Listings</h1>
             <p class="small text-muted">search results...</p>
-          </div>
+            </div>
 
         <!-- Search Bar-->
         <div class="search-container">
-          <div class="search-bar d-flex align-items-center">
+          <div class="search-bar d-flex align-items-center" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
             <i class="bi bi-search me-2"></i>
             <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or reporter...">
             <button class="btn btn-link p-0 ms-2">
-              <i class="bi bi-list fs-5"></i>
+            <i class="bi bi-list fs-5"></i>
             </button>
           </div>
         </div>
       </div>
     
         <!-- Found Listing Cards -->
-        <div class="d-flex flex-column gap-3 mt-4" id="listingContainer">
+        <div class="d-flex flex-column gap-4 mt-4" id="listingContainer">
 
-          <div class="listing-card item-card">
+            <div class="listing-card item-card">
             <div class="image-placeholder">
               <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 d-flex flex-column justify-content-between">
+              <div>
               <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Red Umbrella</p>
               <p class="item-reporter" style="margin-bottom: 66px;">Posted by: John Santos</p>
               <p class="item-location" style="margin-bottom: 66px;">Location: CHSS Lobby</p>
               <p style="margin-bottom: 20px;">Date: April 18, 2025</p>
-              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
+              </div>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
             </div>
-          </div>
+            </div>
 
           <div class="listing-card item-card">
             <div class="image-placeholder">
               <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 d-flex flex-column justify-content-between">
+              <div>
               <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: UP Mindanao ID</p>
               <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Maria Cruz</p>
               <p class="item-location" style="margin-bottom: 66px;">Location: Admin Building</p>
               <p style="margin-bottom: 20px;">Date: April 17, 2025</p>
-              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
+              </div>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
             </div>
           </div>
 
@@ -135,12 +139,14 @@
             <div class="image-placeholder">
               <img src="lost.jpg" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 d-flex flex-column justify-content-between">
+              <div>
               <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Wallet</p>
               <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Anna Reyes</p>
               <p class="item-location" style="margin-bottom: 66px;">Location: Kasadya Grounds</p>
               <p style="margin-bottom: 20px;">Date: April 15, 2025</p>
-              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
+              </div>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
             </div>
           </div>
 
@@ -148,12 +154,14 @@
             <div class="image-placeholder">
               <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
             </div>
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 d-flex flex-column justify-content-between">
+              <div>
               <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Math Notebook</p>
               <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Carlos Dela Peña</p>
               <p class="item-location" style="margin-bottom: 66px;">Location: Library</p>
               <p style="margin-bottom: 20px;">Date: April 14, 2025</p>
-              <a href="founditemdetails.html" class="btn btn-sm btn-secondary" style="background-color: #333333;">More</a>
+              </div>
+              <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
             </div>
           </div>
 
@@ -161,6 +169,9 @@
 
 
         </div>
+        <br>
+        <br>
+
       </main>
     
     

@@ -79,77 +79,98 @@
         </div>
     </nav>
 
+    <!-- Found Listings-->
     <main class="container mt-5 pt-5">
-        <!-- Header -->
-        <div class="listing-header">
+      <!-- Header -->
+      <div class="listing-header">
           <div>
-            <h3 class="fw-bold mb-1">Lost Listings</h3>
-            <p class="small text-muted">search results...</p>
+          <h1 class="fw-bold mb-1" style="font-size: 3.0rem;">Lost Listings</h1>
+          <p class="small text-muted">search results...</p>
           </div>
-          <div class="search-container">
-            <div class="search-bar">
-              <i class="bi bi-search me-2"></i>
-              <input type="text" placeholder="Search..." />
-              <button class="btn btn-link p-0 ms-2"><i class="bi bi-list fs-5"></i></button>
+
+      <!-- Search Bar-->
+      <div class="search-container">
+        <div class="search-bar d-flex align-items-center" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+          <i class="bi bi-search me-2"></i>
+          <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or reporter...">
+          <button class="btn btn-link p-0 ms-2">
+          <i class="bi bi-list fs-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+      <!-- Found Listing Cards -->
+      <div class="d-flex flex-column gap-4 mt-4" id="listingContainer">
+
+          <div class="listing-card item-card">
+          <div class="image-placeholder">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+          </div>
+          <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div>
+            <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
+            <p class="item-reporter" style="margin-bottom: 66px;">Posted by:</p>
+            <p class="item-location" style="margin-bottom: 66px;">Location:</p>
+            <p style="margin-bottom: 20px;">Date:</p>
             </div>
+            <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
+          </div>
+          </div>
+
+        <div class="listing-card item-card">
+          <div class="image-placeholder">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+          </div>
+          <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div>
+            <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
+            <p class="item-reporter" style="margin-bottom: 66px;">Posted by:</p>
+            <p class="item-location" style="margin-bottom: 66px;">Location:</p>
+            <p style="margin-bottom: 20px;">Date:</p>
+            </div>
+            <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
           </div>
         </div>
-    
-        <!-- Lost Listing Cards -->
-        <div class="d-flex flex-column gap-3 mt-4">
-          
-          <div class="listing-card">
-            <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
-            </div>
-            <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
-            </div>
+
+        <div class="listing-card item-card">
+          <div class="image-placeholder">
+            <img src="lost.jpg" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
           </div>
-    
-          <div class="listing-card">
-            <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+          <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div>
+            <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
+            <p class="item-reporter" style="margin-bottom: 66px;">Posted by:</p>
+            <p class="item-location" style="margin-bottom: 66px;">Location:</p>
+            <p style="margin-bottom: 20px;">Date:</p>
             </div>
-            <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
-            </div>
+            <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
           </div>
-    
-          <div class="listing-card">
-            <div class="image-placeholder">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
-            </div>
-            <div class="flex-grow-1">
-              <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-              <p style="margin-bottom: 66px;">Posted by:</p>
-              <p style="margin-bottom: 66px;">Location:</p>
-              <p style="margin-bottom: 20px;">Date:</p>
-              <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
-            </div>
-          </div>
-    
-            <div class="listing-card">
-                <div class="image-placeholder">
-                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
-                </div>
-                <div class="flex-grow-1">
-                <p style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
-                <p style="margin-bottom: 66px;">Posted by:</p>
-                <p style="margin-bottom: 66px;">Location:</p>
-                <p style="margin-bottom: 20px;">Date:</p>
-                <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
-                </div>
         </div>
-      </main>
+
+        <div class="listing-card item-card">
+          <div class="image-placeholder">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Unibersidad_ng_Pilipinas_Mindanao.png/420px-Unibersidad_ng_Pilipinas_Mindanao.png" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+          </div>
+          <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div>
+            <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name:</p>
+            <p class="item-reporter" style="margin-bottom: 66px;">Posted by:</p>
+            <p class="item-location" style="margin-bottom: 66px;">Location:</p>
+            <p style="margin-bottom: 20px;">Date:</p>
+            </div>
+            <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
+          </div>
+        </div>
+
+      </div>
+
+
+      </div>
+      <br>
+      <br>
+
+    </main>
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js">   
