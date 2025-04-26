@@ -143,6 +143,44 @@
             <p class="item-reporter" style="margin-bottom: 66px;">Posted by:</p>
             <p class="item-location" style="margin-bottom: 66px;">Location:</p>
             <p style="margin-bottom: 20px;">Date:</p>
+        <!-- Search Bar-->
+        <div class="search-container">
+          <div class="search-bar d-flex align-items-center">
+            <i class="bi bi-search me-2"></i>
+            <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or reporter...">
+            <button class="btn btn-link p-0 ms-2">
+              <i class="bi bi-list fs-5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    
+        <!-- Lost Listing Cards -->
+        <div class="d-flex flex-column gap-3 mt-4" id="listingContainer">
+          
+          <div class="listing-card item-card">
+            <div class="image-placeholder">
+              <img src="https://img.freepik.com/free-photo/white-reusable-water-bottle_53876-145536.jpg?semt=ais_hybrid&w=740" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+            </div>
+            <div class="flex-grow-1">
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Water Bottle</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: Renz</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: CSM</p>
+              <p style="margin-bottom: 20px;">Date: March 20, 2025</p>
+              <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
+            </div>
+          </div>
+
+          <div class="listing-card item-card"> 
+            <div class="image-placeholder">
+              <img src="https://media.istockphoto.com/id/1327143786/photo/apple-pencil-2nd-generation-next-to-its-box.jpg?s=612x612&w=0&k=20&c=3RSFPQefeV9RIM74zrXF5DpM1jK239e-BK9WB7wzVzE=" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+            </div>
+            <div class="flex-grow-1">
+              <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: Apple pencil</p>
+              <p class="item-reporter" style="margin-bottom: 66px;">Posted by: JJ</p>
+              <p class="item-location" style="margin-bottom: 66px;">Location: EBL</p>
+              <p style="margin-bottom: 20px;">Date: February 04, 2025</p>
+              <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button> </a>
             </div>
             <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
           </div>
@@ -175,6 +213,50 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js">   
     </script>
+
+<script>
+  const searchBar = document.getElementById("search-bar");
+  const itemCards = document.querySelectorAll(".item-card");
+  const listingContainer = document.getElementById("listingContainer");
+
+  searchBar.addEventListener("input", () => {
+      const term = searchBar.value.toLowerCase();
+      let foundAny = false;
+
+      itemCards.forEach((card) => {
+          const name = card.querySelector(".item-name").textContent.toLowerCase();
+          const location = card.querySelector(".item-location").textContent.replace("Location:", "").trim().toLowerCase();
+          const reporter = card.querySelector(".item-reporter").textContent.replace("Posted by:", "").trim().toLowerCase();
+
+          const matches = name.includes(term) || location.includes(term) || reporter.includes(term);
+
+          if (matches) {
+              card.classList.remove("d-none");
+              foundAny = true;
+          } else {
+              card.classList.add("d-none");
+          }
+      });
+
+      // Check if "no results" message already exists
+      let noResults = document.getElementById("no-results");
+
+      if (!foundAny) {
+          if (!noResults) {
+              noResults = document.createElement("p");
+              noResults.id = "no-results";
+              noResults.className = "text-muted text-center mt-3";
+              noResults.textContent = "No matching results.";
+              listingContainer.appendChild(noResults);
+          }
+      } else {
+          if (noResults) {
+              noResults.remove();
+          }
+      }
+  });
+</script>
+
 
     </body>
 </html>
