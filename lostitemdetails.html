@@ -118,5 +118,51 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--script to fetch the email of the user -->
+    <script type="module">
+        import { supabase } from './supabaseClient.js'; // Make sure your supabaseClient.js is properly linked
+    
+        // Check if access token exists
+        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    
+        if (!token) {
+            window.location.href = 'login.html'; // If no token, force to login
+        }
+    
+        // Fetch the user session
+        async function fetchUser() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+    
+            if (error) {
+                console.error("Error fetching session:", error);
+                return;
+            }
+    
+            if (session && session.user) {
+                const email = session.user.email;
+                const emailDisplay = document.getElementById('email-display');
+                if (emailDisplay) {
+                    emailDisplay.textContent = email;
+                }
+            } else {
+                console.error("No user session found.");
+                window.location.href = 'login.html'; 
+            }
+        }
+    
+        fetchUser(); // Always fetch on page load
+    
+        // Logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                localStorage.removeItem('access_token');
+                sessionStorage.removeItem('access_token');
+                window.location.href = 'login.html';
+            });
+        }
+      </script>
 </body>
 </html>
