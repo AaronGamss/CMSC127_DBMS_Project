@@ -56,69 +56,67 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!--Script to import the authentication functions-->
+      <!--Script to import the authentication functions-->
     <script type="module">
-        import { supabase } from './supabaseClient.js'
-    
-        const form = document.querySelector('form')
-    
-        form.addEventListener('submit', async (e) => {
-    e.preventDefault()
+      import { supabase } from './supabaseClient.js'
 
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    const confirmPassword = document.getElementById('confirmPassword').value
+      const form = document.querySelector('form')
 
-    if (password !== confirmPassword) {
-        alert('Passwords do not match.')
-        return
-    }
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
 
-    try {
-        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        const email           = document.getElementById('email').value.trim()
+        const password        = document.getElementById('password').value
+        const confirmPassword = document.getElementById('confirmPassword').value
+
+        if (password !== confirmPassword) {
+          alert('Passwords do not match.')
+          return
+        }
+
+        try {
+          // 1) Attempt sign-up in Auth
+          const { data: authData, error: authError } = await supabase.auth.signUp({
             email,
             password,
-        })
+          })
 
-        if (!signInError) {
-            alert('This email is already registered. Please login instead.')
+          if (authError) {
+            // if email already registered
+            if (authError.message.toLowerCase().includes('already registered')) {
+              alert('This email is already registered. Please login instead.')
+            } else {
+              alert('Signup failed: ' + authError.message)
+            }
             return
-        }
+          }
 
-         if (signInError.message.toLowerCase().includes("invalid login credentials")) {
-            alert('This email is already registered. Please login instead.')
-            return
-        }
-
-        if (signInError.message.toLowerCase().includes("user not found")) {
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password
+          // 2) Insert profile row into our public."User" table
+          const { error: insertError } = await supabase
+            .from('User')
+            .insert({
+              Name:        email,   // using email as placeholder name
+              Email:       email,
+              PhoneNumber: ''       // leave blank; will fill later
             })
 
-            if (error) {
-                alert('Signup failed: ' + error.message)
-                return
-            }
+          if (insertError) {
+              console.error('Profile insert error code:', insertError.code)
+              console.error('Profile insert error message:', insertError.message)
+              console.error('Profile insert error details:', insertError.details)
+              alert(`Signup succeeded but failed to save your profile: ${insertError.message}`)
+              return
+          }
 
-            if (data.user) {
-                alert('Signup successful! Please check your email to confirm your account.')
-                window.location.href = 'login.html'
-            } else {
-                alert('Signup failed: Unknown error.')
-            }
+          // 3) All done
+          alert('Signup successful! Please check your email to confirm your account.')
+          window.location.href = 'login.html'
 
-            return
+        } catch (err) {
+          console.error('Unexpected error:', err)
+          alert('An unexpected error occurred. Please try again later.')
         }
-        alert('An unexpected error occurred. Please try again later.')
-        console.error('Unexpected error during sign-in check:', signInError)
-
-    } catch (err) {
-        console.error('Unexpected error:', err)
-        alert('An unexpected error occurred. Please try again later.')
-    }
-})
-
+      })
     </script>
       
       

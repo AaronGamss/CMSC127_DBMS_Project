@@ -89,7 +89,7 @@
     </div>
 
     <div class="container mt-5 pt-5" style="visibility: visible; background-color: white; padding: 70px; border-radius: 10px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); max-width: 900px;">
-        <form class="mt-4" id="reportForm" action="postreportlost.html" method="GET">
+        <form class="mt-4" id="reportForm" action="postreportlost.html">
             <div class="mb-3">
                 <label for="itemName" class="form-label">Item Name <span style="color: #988F78;">*</span></label>
                 <input type="text" class="form-control" id="itemName" name="itemName" placeholder="Enter the name of the lost item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
@@ -98,10 +98,10 @@
                 <label for="category" class="form-label">Category <span style="color: #988F78;">*</span></label>
                 <select class="form-select" id="category" name="category" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;">
                     <option value="" disabled selected>Select a category</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="documents">Documents</option>
-                    <option value="others">Others</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Others">Others</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -109,8 +109,16 @@
                 <textarea class="form-control" id="description" name="description" rows="3" placeholder="Provide a detailed description of the lost item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;"></textarea>
             </div>
             <div class="mb-3">
-                <label for="fileUpload" class="form-label">File Upload</label>
-                <input type="file" class="form-control" id="fileUpload" name="fileUpload" style="border: 2px solid #E8E8E8; background-color: #FFFFFF; color: white;" />
+                <label for="fileUpload" class="form-label">File Upload (JPEG/PNG)</label>
+                <input 
+                    type="file" 
+                    class="form-control" 
+                    id="fileUpload" 
+                    name="fileUpload" 
+                    accept="image/jpeg, image/png" 
+                    style="border: 2px solid #E8E8E8; background-color: #FFFFFF; color: grey;" 
+                />
+                <img id="filePreview" src="" alt="Image Preview" style="margin-top: 10px; max-height: 200px; display: none;"/>
             </div>
             <div class="mb-3">
                 <label for="dateLost" class="form-label">Date Lost <span style="color: #988F78;">*</span></label>
@@ -159,5 +167,234 @@
     <br>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!--script to fetch the email of the user and insertion of items in the supabase-->
+    <script type="module">
+        import { supabase } from './supabaseClient.js'; 
+    
+        // Check if access token exists
+        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    
+        if (!token) {
+            window.location.href = 'login.html'; // If no token, force to login
+        }
+    
+        // Fetch the user session
+        async function fetchUser() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+    
+            if (error) {
+                console.error("Error fetching session:", error);
+                return;
+            }
+    
+            if (session && session.user) {
+                const email = session.user.email;
+                const emailDisplay = document.getElementById('email-display');
+                if (emailDisplay) {
+                    emailDisplay.textContent = email;
+                }
+            } else {
+                console.error("No user session found.");
+                window.location.href = 'login.html'; 
+            }
+        }
+    
+        fetchUser(); // Always fetch on page load
+    
+        // Logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                localStorage.removeItem('access_token');
+                sessionStorage.removeItem('access_token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Image preview
+    const fileInput = document.getElementById('fileUpload');
+    const filePreview = document.getElementById('filePreview');
+    fileInput.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                filePreview.src = reader.result;
+                filePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            filePreview.style.display = 'none';
+        }
+    });
+
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const form = document.getElementById('reportForm');
+        const formData = new FormData(form);
+
+        const itemName         = formData.get('itemName').trim();
+        const categoryName     = formData.get('category').trim();
+        const description      = formData.get('description').trim();
+        const dateLost         = formData.get('dateLost');
+        const lostLocation     = formData.get('lostLocation').trim();
+        const reporterName     = formData.get('reporterName').trim();
+        const messengerAccount = formData.get('messengerAccount').trim();
+        const phoneNumber      = formData.get('phoneNumber').trim();
+
+        const fileUpload = fileInput.files[0];
+
+        const { data: { user: authUser } } = await supabase.auth.getUser();
+        if (!authUser) {
+            console.error('No user logged in');
+            return;
+        }
+
+        const { data: userProfile, error: profileErr } = await supabase
+            .from('User')
+            .select('UserID')
+            .eq('Email', authUser.email)
+            .single();
+
+        if (profileErr || !userProfile) {
+            console.error('Could not find numeric UserID for', authUser.email, profileErr);
+            return;
+        }
+
+        const numericUserId = userProfile.UserID;
+
+        // Update user's name and phone number
+        const { error: updateErr } = await supabase
+            .from('User')
+            .update({ Name: reporterName, PhoneNumber: phoneNumber })
+            .eq('UserID', numericUserId);
+
+        if (updateErr) {
+            console.error('Profile update failed:', updateErr);
+            return;
+        }
+
+        // Upload image
+        let imageURL = null;
+        if (fileUpload) {
+        // 1) sanitize the filename (no spaces or special chars)
+        const cleanName = fileUpload.name
+                            .replace(/\s+/g, '_')
+                            .replace(/[^a-zA-Z0-9_\.-]/g, '');
+        const storagePath = `${Date.now()}_${cleanName}`;
+
+        // 2) upload into your lost-item-photos bucket
+        const { data: uploadData, error: upErr } = await supabase
+            .storage
+            .from('lost-items-photos')      
+            .upload(storagePath, fileUpload, { cacheControl: '3600', upsert: false });
+
+        if (upErr) {
+            console.error('Supabase Storage upload error:', upErr);
+            alert(`Image upload failed: ${upErr.message}`);
+            return;
+        }
+
+        // 3) fetch its public URL
+        const { data: urlData, error: urlErr } = supabase
+            .storage
+            .from('lost-items-photos')
+            .getPublicUrl(storagePath);
+
+        if (urlErr) {
+            console.error('Supabase getPublicUrl error:', urlErr);
+            // we’ll continue without an image
+        } else {
+            imageURL = urlData.publicUrl;
+        }
+        }
+
+        // Ensure Category exists
+        let { data: categoryData, error: catErr } = await supabase
+            .from('ItemCategory')
+            .select('CategoryID')
+            .eq('CategoryName', categoryName)
+            .maybeSingle();
+
+        // If the select query itself failed, stop
+        if (catErr) {
+            console.error('Error querying ItemCategory:', catErr);
+            return;
+        }
+
+        // If no existing category, insert it
+        if (!categoryData) {
+        const { data: newCat, error: newCatErr } = await supabase
+            .from('ItemCategory')
+            .insert({ CategoryName: categoryName })
+            .select('CategoryID')
+            .single();
+        if (newCatErr) {
+            console.error('Category insert error:', newCatErr);
+            return;
+        }
+        categoryData = newCat;
+        }
+
+        // Ensure Location exists
+        let { data: locData, error: locErr } = await supabase
+            .from('CampusLocation')
+            .select('LocationID')
+            .eq('LocationName', lostLocation)
+            .maybeSingle();
+        
+        // If the query itself failed
+        if (locErr) {
+            console.error('Error querying CampusLocation:', locErr);
+            return;
+        }
+        // If no existing location, insert it
+        if (!locData) {
+            const { data: newLoc, error: newLocErr } = await supabase
+            .from('CampusLocation')
+            .insert({ LocationName: lostLocation })
+            .select('LocationID')
+            .single();
+        if (newLocErr) {
+            console.error('Location insert error:', newLocErr);
+            return;
+        }
+        locData = newLoc;
+        }
+        // Insert LostItem record
+        const { error: liErr } = await supabase
+            .from('LostItem')
+            .insert({
+                Name:                  itemName,
+                Description:           description,
+                Image:                 imageURL,
+                DateLost:              dateLost,
+                LocationID:            locData.LocationID,
+                CategoryID:            categoryData.CategoryID,
+                UserID:                numericUserId,
+                Status:                'Pending',
+                MessengerAccountName:  messengerAccount
+            });
+
+        if (liErr) {
+            console.error('LostItem insert error', liErr);
+            return
+        }
+
+        form.reset();
+        window.location.href = 'postreportlost.html';
+        
+    }
+
+    document
+        .getElementById('reportForm')
+        .addEventListener('submit', handleFormSubmit);
+
+    </script>
+    
+  
 </body>
 </html>
