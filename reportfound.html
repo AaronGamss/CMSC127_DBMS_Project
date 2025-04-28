@@ -183,11 +183,7 @@
         const form = document.getElementById('reportForm');
         const submitButton = document.getElementById('submitButton');
         function checkFormValidity() {
-        if (form.checkValidity()) {
-            submitButton.disabled = false;
-        } else {
-            submitButton.disabled = true;
-        }
+
     }
 
     form.addEventListener('input', checkFormValidity);
@@ -203,7 +199,6 @@
         form.addEventListener('input', () => {
             const requiredFields = ['itemName', 'category', 'description', 'dateFound', 'foundLocation', 'reporterName', 'messengerAccount', 'phoneNumber'];
             const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
-            submitButton.disabled = !allFilled;
         });
     </script>
     
