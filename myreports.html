@@ -7,37 +7,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
-    <!--Script for protected routes which is inaccessible without authentication.-->
-    <script type="module">
-      import { supabase } from './supabaseClient.js';  // Make sure to import the Supabase client
-
-      const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
-
-      if (!token) {
-      // Redirect to login if token is not found in either storage
-      window.location.href = 'login.html';
-      }
-
-      // Retrieve user session and email from Supabase
-      async function fetchUser() {
-          const { data: { session }, error } = await supabase.auth.getSession();
-
-          if (error) {
-              console.error("Error fetching session:", error);
-              return;
-          }
-
-          if (session && session.user) {
-              const email = session.user.email;
-              document.getElementById('email-display').textContent = email;
-          } else {
-              console.error("No user session found.");
-              window.location.href = 'login.html'; 
-          }
-      }
-      </script>
-
 </head>
 
 <body>
@@ -109,8 +78,6 @@
             </div>
         </div>
     </nav>
-
- 
         <!-- My reports-->
          
         <main class="container mt-5 pt-5">
@@ -150,10 +117,9 @@
             </div>
             
               <!-- Item Report cards -->
-                      <!-- if no reports this will not show
                        
               <div class="d-flex flex-column gap-3 mt-4" id="listingContainer">
-      
+                <!-- Example Item Cards
                 <div class="listing-card item-card">
                   <div class="image-placeholder">
                     <img src="https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXBwbGUlMjBpcGhvbmV8ZW58MHx8MHx8fDA%3D" alt="Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
@@ -178,19 +144,10 @@
                     <p style="margin-bottom: 20px;">Date: April 26, 2025</p>
                     <a href="#" class="btn btn-sm btn-secondary" style="background-color: #0000;">Resolve</a>
                   </div>
-                </div>
-      
-      
+                </div> -->
               </div>
-
-    
             </div>
           </main>
-        -->
-        
-        
-    
-        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
         
         
@@ -290,6 +247,104 @@
                 window.location.href = 'login.html';
             });
         }
+
+        async function fetchLocationName(locationId) {
+            const { data, error } = await supabase
+                .from('CampusLocation')
+                .select('LocationName')
+                .eq('LocationID', locationId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching location name:', error);
+                return 'Unknown Location';
+            }
+
+            return data ? data.LocationName : 'Unknown Location';
+        }
+
+        async function fetchUserReports() {
+            // Get the auth user
+            const { data: { user: authUser } } = await supabase.auth.getUser();
+                if (!authUser) {
+                    console.error('No user logged in');
+                    return;
+                }
+
+            // Look up the numeric UserID in your User table
+            const { data: userProfile, error: profileErr} = await supabase
+                    .from('User')
+                    .select('UserID')
+                    .eq('Email', authUser.email)
+                    .single();
+
+            // Handle lookup errors immediately
+            if (profileErr || !userProfile) {
+                console.error('Could not find numeric UserID for', authUser.email, profileErr);
+                return;
+            }
+
+            const numericUserId = userProfile.UserID;
+
+            // Fetch the lost item reports submitted by the current user
+            const { data: lostReports, error: lostReportsError } = await supabase
+                .from('LostItem')
+                .select('*')
+                .eq('UserID', numericUserId);
+
+            if (lostReportsError) {
+                console.error('Error fetching lost item reports:', lostReportsError);
+                return;
+            }
+
+            // Fetch the found item reports submitted by the current user
+            const { data: foundReports, error: foundReportsError } = await supabase
+                .from('FoundItem')
+                .select('*')
+                .eq('UserID', numericUserId);
+
+            if (foundReportsError) {
+                console.error('Error fetching found item reports:', foundReportsError);
+                return;
+            }
+
+            // Combine the reports from both tables into a single array
+            const userReports = [...(lostReports || []), ...(foundReports || [])];
+
+            // const listingContainer = document.getElementById('listingContainer'); already exists above\
+            const empReportsContainer = document.querySelector('.emp-reports-container');
+
+            // Shows and hides the listing and no reports containers
+            if (userReports.length === 0) {
+                listingContainer.style.display = 'none';
+                empReportsContainer.style.display = 'block';
+            } else {
+                listingContainer.style.display = 'block';
+                empReportsContainer.style.display = 'none';
+            }
+
+            listingContainer.innerHTML = '';
+            userReports.forEach(async (report) => {
+                const locationName = await fetchLocationName(report.LocationID);
+                const date = report.DateLost || report.DateFound || 'Unknown Date';
+                const card = document.createElement('div');
+                card.className = 'listing-card item-card';
+                card.innerHTML = `
+                    <div class="image-placeholder">
+                        <img src="${report.Image || 'logo.png'}" alt="Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: ${report.Name}</p>
+                        <p class="item-status" style="margin-bottom: 66px;">Status: ${report.Status}</p>
+                        <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
+                        <p style="margin-bottom: 20px;">Date: ${date}</p>
+                        <a href="#" class="btn btn-sm btn-secondary" style="background-color: #0000;">Resolve</a>
+                    </div>`;
+                listingContainer.appendChild(card);
+            });
+        }
+
+        fetchUserReports(); // Fetch user reports on page load
       </script>
 </body>
 </html>
