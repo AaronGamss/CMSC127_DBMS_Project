@@ -89,10 +89,12 @@
     </div>
 
     <div class="container mt-5 pt-5" style="visibility: visible; background-color: white; padding: 70px; border-radius: 10px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); max-width: 900px;">
-        <form class="mt-4" id="reportForm">
+        <form class="needs-validation mt-4" id="reportForm" novalidate>
+        
             <div class="mb-3">
                 <label for="itemName" class="form-label">Item Name <span style="color: #333;">*</span></label>
                 <input type="text" class="form-control" id="itemName" name="itemName" placeholder="Enter the name of the found item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <div class="invalid-feedback">Please enter the item name.</div>
             </div>
             <div class="mb-3">
                 <label for="category" class="form-label">Category <span style="color: #333333;">*</span></label>
@@ -103,10 +105,13 @@
                     <option value="documents">Documents</option>
                     <option value="others">Others</option>
                 </select>
+                <div class="invalid-feedback">Please select a category.</div>
             </div>
+
             <div class="mb-3">
                 <label for="description" class="form-label">Description <span style="color: #333333;">*</span></label>
                 <textarea class="form-control" id="description" name="description" rows="3" placeholder="Provide a detailed description of the found item" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;"></textarea>
+                <div class="invalid-feedback">Please provide a description.</div>
             </div>
             <div class="mb-3">
                 <label for="fileUpload" class="form-label">File Upload (JPEG/PNG)</label>
@@ -138,18 +143,25 @@
             <div class="mb-3">
                 <label for="dateFound" class="form-label">Date Found <span style="color: #333333;">*</span></label>
                 <input type="date" class="form-control" id="dateFound" name="dateFound" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <div class="invalid-feedback">Please enter the date when the item was found.    
+
+                </div>
             </div>
             <div class="mb-3">
                 <label for="foundLocation" class="form-label">Found Location <span style="color: #333333;">*</span></label>
                 <input type="text" class="form-control" id="foundLocation" name="foundLocation" placeholder="Enter the location where the item was found" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <div class="invalid-feedback">Please enter the found location.</div>
             </div>
+
             <div class="mb-3">
                 <label for="reporterName" class="form-label">Name of Reporter <span style="color: #333333;">*</span></label>
                 <input type="text" class="form-control" id="reporterName" name="reporterName" placeholder="Enter your name" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <div class="invalid-feedback">Please enter your name.</div>
             </div>
             <div class="mb-3">
                 <label for="messengerAccount" class="form-label">Messenger Account Name <span style="color: #333333;">*</span></label>
                 <input type="text" class="form-control" id="messengerAccount" name="messengerAccount" placeholder="Enter your Messenger account name" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <div class="invalid-feedback">Please enter your Messenger account name.</div>
             </div>
             <div class="mb-3">
                 <label for="contactEmail" class="form-label">Contact Email</label>
@@ -157,11 +169,12 @@
             </div>
             <div class="mb-3">
                 <label for="phoneNumber" class="form-label">Phone Number <span style="color: #333333;">*</span></label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
+                <input type="tel" class="form-control" pattern="[0-9]{11}" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF; " />
+                <div class="invalid-feedback">Please enter your phone number. 09*********</div>
             </div>
             <br>
             <div class="text-end">
-                <button type="submit" class="btn" id="submitButton" disabled style="background-color: #333333; color: white; width: 150px; font-weight: 650;">Report</button>
+                <button type="submit" class="btn" id="submitButton"  style="background-color: #333333; color: white; width: 150px; font-weight: 650;">Report</button>
             </div>
         </form>
     </div>
@@ -169,11 +182,23 @@
     <script>
         const form = document.getElementById('reportForm');
         const submitButton = document.getElementById('submitButton');
+        function checkFormValidity() {
+
+    }
+
+    form.addEventListener('input', checkFormValidity);
+
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
 
         form.addEventListener('input', () => {
             const requiredFields = ['itemName', 'category', 'description', 'dateFound', 'foundLocation', 'reporterName', 'messengerAccount', 'phoneNumber'];
             const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
-            submitButton.disabled = !allFilled;
         });
     </script>
     
