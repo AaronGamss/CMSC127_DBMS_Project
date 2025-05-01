@@ -125,12 +125,12 @@
             <div class="mb-3">
                 <label for="dateLost" class="form-label">Date Lost <span style="color: #988F78;">*</span></label>
                 <input type="date" class="form-control" id="dateLost" name="dateLost" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
-                <div class="invalid-feedback">Please enter the date when the item was found.    </div>
+                <div class="invalid-feedback">Please enter the date when the item was lost.    </div>
             </div>
             <div class="mb-3">
                 <label for="lostLocation" class="form-label">Lost Location <span style="color: #988F78;">*</span></label>
                 <input type="text" class="form-control" id="lostLocation" name="lostLocation" placeholder="Enter the location where the item was lost" required style="border: 2px solid #E8E8E8; background-color: #FFFFFF;" />
-                <div class="invalid-feedback">Please enter the found location.</div>
+                <div class="invalid-feedback">Please enter the lost location.</div>
           
             </div>
             <div class="mb-3">
@@ -253,6 +253,7 @@
 
     async function handleFormSubmit(e) {
         e.preventDefault();
+
 
         const form = document.getElementById('reportForm');
         const formData = new FormData(form);
