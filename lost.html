@@ -263,6 +263,11 @@
                 return data ? data.Name : 'Unknown User';
         }
 
+        // Store the LostID in local storage for use in lostitemdetails.html
+        function storeItemKey(itemId) {
+            sessionStorage.setItem('item_id', itemId);
+        }
+
         // Fetch lost item listings from Supabase
         async function fetchLostReports() {
             const { data: lostReports, error: lostReportsError } = await supabase
@@ -290,7 +295,7 @@
                         <p class="item-reporter" style="margin-bottom: 66px;">Posted by: ${userName}</p>
                         <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
                         <p style="margin-bottom: 20px;">Date: ${date}</p>
-                        <a href="lostitemdetails.html" button class="btn btn-sm btn-secondary">More</button></a>
+                        <a href="lostitemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto; onclick="storeItemKey('${report.LostItemID}')">More</a>
                     </div>`;
                 listingContainer.appendChild(card);
             });
