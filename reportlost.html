@@ -235,21 +235,21 @@
         }
 
         // Image preview
-    const fileInput = document.getElementById('fileUpload');
-    const filePreview = document.getElementById('filePreview');
-    fileInput.addEventListener('change', e => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                filePreview.src = reader.result;
-                filePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            filePreview.style.display = 'none';
-        }
-    });
+        const fileInput = document.getElementById('fileUpload');
+        const filePreview = document.getElementById('filePreview');
+        fileInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    filePreview.src = reader.result;
+                    filePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                filePreview.style.display = 'none';
+            }
+        });
 
     async function handleFormSubmit(e) {
         e.preventDefault();
@@ -302,13 +302,13 @@
         // Upload image
         let imageURL = null;
         if (fileUpload) {
-        // 1) sanitize the filename (no spaces or special chars)
+        // sanitize the filename (no spaces or special chars)
         const cleanName = fileUpload.name
                             .replace(/\s+/g, '_')
                             .replace(/[^a-zA-Z0-9_\.-]/g, '');
         const storagePath = `${Date.now()}_${cleanName}`;
 
-        // 2) upload into your lost-item-photos bucket
+        // upload in the lost-item-photos bucket
         const { data: uploadData, error: upErr } = await supabase
             .storage
             .from('lost-items-photos')      
@@ -320,7 +320,7 @@
             return;
         }
 
-        // 3) fetch its public URL
+        // fetch its public URL
         const { data: urlData, error: urlErr } = supabase
             .storage
             .from('lost-items-photos')

@@ -145,10 +145,10 @@
 
     <script>
       const searchBar = document.getElementById("search-bar");
-      const itemCards = document.querySelectorAll(".item-card");
-      const listingContainer = document.getElementById("listingContainer");
 
       searchBar.addEventListener("input", () => {
+          const itemCards = document.querySelectorAll(".item-card");
+          const listingContainer = document.getElementById("listingContainer");
           const term = searchBar.value.toLowerCase();
           let foundAny = false;
 
@@ -230,6 +230,73 @@
               window.location.href = 'login.html';
           });
       }
+
+        // Fetch the LocationName attribute from CampusLocation table using LocationID foreign key
+        async function fetchLocationName(locationId) {
+            const { data, error } = await supabase
+                .from('CampusLocation')
+                .select('LocationName')
+                .eq('LocationID', locationId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching location name:', error);
+                return 'Unknown Location';
+            }
+
+            return data ? data.LocationName : 'Unknown Location';
+        }
+
+        // Fetch the Name attribute from User table using UserID foreign key
+        async function fetchUserName(userId) {
+            const { data, error } = await supabase
+                .from('User')
+                .select('Name')
+                .eq('UserID', userId)
+                .single();
+
+                if (error) {
+                    console.error('Error fetching user name:', error);
+                    return 'Unknown User';
+                }
+
+                return data ? data.Name : 'Unknown User';
+        }
+
+        // Fetch lost item listings from Supabase
+        async function fetchLostReports() {
+            const { data: lostReports, error: lostReportsError } = await supabase
+                .from('LostItem')
+                .select('*');
+
+            if (lostReportsError) {
+                console.error('Error fetching lost item reports:', lostReportsError);
+                return;
+            }
+
+            listingContainer.innerHTML = '';
+            lostReports.forEach(async (report) => {
+                const locationName = await fetchLocationName(report.LocationID);
+                const userName = await fetchUserName(report.UserID);
+                const date = report.DateLost || 'Unknown Date';
+                const card = document.createElement('div');
+                card.className = 'listing-card item-card';
+                card.innerHTML = `
+                    <div class="image-placeholder">
+                        <img src="${report.Image || 'logo.png'}" alt="Lost Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: ${report.Name}</p>
+                        <p class="item-reporter" style="margin-bottom: 66px;">Posted by: ${userName}</p>
+                        <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
+                        <p style="margin-bottom: 20px;">Date: ${date}</p>
+                        <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988F78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
+                    </div>`;
+                listingContainer.appendChild(card);
+            });
+        }
+
+        fetchLostReports();
     </script>
 
 

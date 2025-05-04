@@ -7,35 +7,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-      <!--Script for protected routes which is inaccessible without authentication.-->
-      <script type="module">
-        import { supabase } from './supabaseClient.js';  // Make sure to import the Supabase client
-  
-        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
-  
-        if (!token) {
-        // Redirect to login if token is not found in either storage
-        window.location.href = 'login.html';
-        }
-  
-        // Retrieve user session and email from Supabase
-        async function fetchUser() {
-            const { data: { session }, error } = await supabase.auth.getSession();
-  
-            if (error) {
-                console.error("Error fetching session:", error);
-                return;
-            }
-  
-            if (session && session.user) {
-                const email = session.user.email;
-                document.getElementById('email-display').textContent = email;
-            } else {
-                console.error("No user session found.");
-                window.location.href = 'login.html'; 
-            }
-        }
-        </script>
 </head>
 
 <body>
@@ -280,6 +251,7 @@
             });
         }
 
+        // Fetch the LocationName attribute from CampusLocation table using LocationID foreign key
         async function fetchLocationName(locationId) {
             const { data, error } = await supabase
                 .from('CampusLocation')
@@ -305,10 +277,10 @@
 
             // Look up the numeric UserID in your User table
             const { data: userProfile, error: profileErr} = await supabase
-                    .from('User')
-                    .select('UserID')
-                    .eq('Email', authUser.email)
-                    .single();
+                .from('User')
+                .select('UserID')
+                .eq('Email', authUser.email)
+                .single();
 
             // Handle lookup errors immediately
             if (profileErr || !userProfile) {
