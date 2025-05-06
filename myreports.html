@@ -356,7 +356,7 @@
                         <p class="item-status" style="margin-bottom: 66px;">Status: ${report.Status}</p>
                         <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
                         <p style="margin-bottom: 20px;">Date: ${date}</p>
-                        <button type="button" class="btn btn-sm btn-secondary resolve-btn" style="background-color: #000000;" 
+                        <button type="button" class="btn btn-sm btn-secondary resolve-btn d-flex justify-content-center align-items-center" style="background-color: #000000; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto; " 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#resolveModal">
                 
@@ -377,7 +377,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-tertiary border border-secondary"  data-bs-dismiss="modal">Cancel</button>
-                              <button type="button" class="btn btn-primary confirm-resolve-btn border border-secondary" data-id="${report.ID}">Yes, Resolve</button>
+                              <button type="button" class="btn btn-primary confirm-resolve-btn border border-secondary" data-id="${report.ID}" style="background-color: #988F78;">Yes, Resolve</button>
                             </div>
                           </div>
                         </div>
@@ -400,7 +400,7 @@
             const card = event.target.closest('.item-card');
 
             // Update the card visually
-            card.style.backgroundColor = '#d3d3d3'; // Gray background for resolved items
+            card.style.backgroundColor = '#d3d3d3';
             card.querySelector('.item-status').textContent = 'Status: Resolved'; // Update status text
             const resolveButton = card.querySelector('.resolve-btn');
             if (resolveButton) {
