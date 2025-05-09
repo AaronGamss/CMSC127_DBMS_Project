@@ -383,7 +383,6 @@
                         </div>
                       </div>
 
-
                     </div>`;
                 listingContainer.appendChild(card);
             });
@@ -393,28 +392,51 @@
       </script>
 
 
-      <script>
+<script>
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('confirm-resolve-btn')) {
-            // Find the closest card to the clicked button
             const card = event.target.closest('.item-card');
 
             // Update the card visually
-            card.style.backgroundColor = '#d3d3d3';
-            card.querySelector('.item-status').textContent = 'Status: Resolved'; // Update status text
+            card.style.backgroundColor = '#d3d3d3'; 
+            card.querySelector('.item-status').textContent = 'Status: Resolved'; 
             const resolveButton = card.querySelector('.resolve-btn');
             if (resolveButton) {
                 resolveButton.remove(); // Remove the "Resolve" button
-
+            }
             const modal = event.target.closest('.modal');
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            bootstrapModal.hide();    
-            }
+            bootstrapModal.hide();
 
+            // Show success toast
+            showToast('Item successfully marked as resolved!');
         }
     });
-</script>
 
-      
+    //  toast
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3';
+        toast.style.zIndex = '1055';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>`;
+        document.body.appendChild(toast);
+
+        const bootstrapToast = new bootstrap.Toast(toast);
+        bootstrapToast.show();
+        toast.addEventListener('hidden.bs.toast', () => {
+            toast.remove();
+        });
+    }
+</script>
+          
 </body>
 </html>
