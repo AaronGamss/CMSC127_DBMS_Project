@@ -245,5 +245,77 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        function buildCarousel(items, carouselId) {
+            const slides = items.map((item, i) => `
+            <div class="carousel-item${i === 0 ? ' active' : ''}">
+                <img 
+                src="${item.url}"
+                class="d-block"
+                alt="${item.alt}"
+                style="width:70%; height:450px; object-fit:fill; margin:0 auto; border-radius:8px;"
+                >
+            </div>
+            `).join('');
+
+            const indicators = items.map((_, i) => `
+            <button
+                type="button"
+                data-bs-target="#${carouselId}"
+                data-bs-slide-to="${i}"
+                ${i === 0 ? 'class="active" aria-current="true"' : ''}
+            ></button>
+            `).join('');
+
+            document.querySelector(`#${carouselId} .carousel-inner`).innerHTML = slides;
+            document.querySelector(`#${carouselId} .carousel-indicators`).innerHTML = indicators;
+        }
+
+        async function loadHomeCarousels() {
+            const configs = [
+            {
+                table:    'LostItem',        
+                idCol:    'LostItemID',
+                dateCol:  'DateLost',
+                carousel: 'lostCarousel',
+                altLabel: 'Lost Item'
+            },
+            {
+                table:    'FoundItem',
+                idCol:    'FoundItemID',
+                dateCol:  'DateFound',
+                carousel: 'foundCarousel',
+                altLabel: 'Found Item'
+            }
+            ];
+
+            for (const { table, idCol, dateCol, carousel, altLabel } of configs) {
+            const { data, error } = await supabase
+                .from(table)                        
+                .select(`${idCol}, Image`)         
+                .order(dateCol, { ascending: false })
+                .limit(3);
+
+            if (error) {
+                console.error(`Error fetching ${table}:`, error);
+                continue;
+            }
+
+            const items = data.map(row => ({
+                url: row.Image || '/placeholder.png',
+                alt: `${altLabel} ${row[idCol]}`
+            }));
+
+            buildCarousel(items, carousel);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadHomeCarousels);
+    </script>
+
+
 </body>
 </html>
