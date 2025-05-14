@@ -340,21 +340,40 @@
             return;
             }
 
-            // Upload image to storage (if any)
+
+            // Upload image
             let imageURL = null;
             if (fileUpload) {
-            const fileName = `${Date.now()}_${fileUpload.name}`;
-            
-            const { error: upErr } = await supabase
+            // sanitize the filename (no spaces or special chars)
+            const cleanName = fileUpload.name
+                                .replace(/\s+/g, '_')
+                                .replace(/[^a-zA-Z0-9_\.-]/g, '');
+            const storagePath = `${Date.now()}_${cleanName}`;
+
+            // upload in the found-item-photos bucket
+            const { data: uploadData, error: upErr } = await supabase
+                .storage
+                .from('found-item-photos')      
+                .upload(storagePath, fileUpload, { cacheControl: '3600', upsert: false });
+
+            if (upErr) {
+                console.error('Supabase Storage upload error:', upErr);
+                alert(`Image upload failed: ${upErr.message}`);
+                return;
+            }
+
+            // fetch its public URL
+            const { data: urlData, error: urlErr } = supabase
                 .storage
                 .from('found-item-photos')
-                .upload(fileName, fileUpload);
-            if (upErr) return console.error('Upload error', upErr);
-            const { publicURL } = supabase
-                .storage
-                .from('found-item-photos')
-                .getPublicUrl(fileName);
-            imageURL = publicURL;
+                .getPublicUrl(storagePath);
+
+            if (urlErr) {
+                console.error('Supabase getPublicUrl error:', urlErr);
+                // we’ll continue without an image
+            } else {
+                imageURL = urlData.publicUrl;
+            }
             }
 
             // Ensure Category exists
