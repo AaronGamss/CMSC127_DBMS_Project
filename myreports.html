@@ -92,7 +92,7 @@
             <div class="search-container">
                 <div class="search-bar d-flex align-items-center" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
                   <i class="bi bi-search me-2"></i>
-                  <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or reporter...">
+                  <input type="text" id="search-bar" class="form-control" placeholder="Search by item, location, or status..." style="background-color: white;">
                   <button class="btn btn-link p-0 ms-2">
                   <i class="bi bi-list fs-5"></i>
                   </button>
@@ -190,8 +190,9 @@
                 const name = card.querySelector(".item-name")?.textContent.toLowerCase() || "";
                 const location = card.querySelector(".item-location")?.textContent.replace("Location:", "").trim().toLowerCase() || "";
                 const status = card.querySelector(".item-status")?.textContent.replace("Status:", "").trim().toLowerCase() || "";
+                const date = card.querySelector("p:nth-child(4)").textContent.replace("Date:", "").trim().toLowerCase(); 
         
-                const matches = name.includes(term) || location.includes(term) || status.includes(term);
+                const matches = name.includes(term) || location.includes(term) || status.includes(term) || date.includes(term);
         
                 if (matches) {
                     card.classList.remove("d-none");
