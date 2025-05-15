@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Balik UP Min Lost Item Details</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Balik UP Min Lost Item Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -174,13 +174,27 @@
 
             if (error) {
                 console.error('Error fetching location name:', error);
-                return 'Unknown Location';
             }
 
             return data ? data.LocationName : 'Unknown Location';
         }
 
-        // Fetch the Name attribute from User table using UserID foreign key
+        // Fetch the CategoryName attribute from ItemCategory table using CategoryID foreign key
+        async function fetchCategoryName(categoryId) {
+            const { data, error } = await supabase
+                .from('ItemCategory')
+                .select('CategoryName')
+                .eq('CategoryID', categoryId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching category name:', error);
+            }
+
+            return data ? data.CategoryName : 'No Category';
+        }
+
+        // Fetch the attributes from User table using UserID foreign key
         async function fetchUserDetails(userId) {
             const { data, error } = await supabase
                 .from('User')
@@ -190,15 +204,15 @@
 
                 if (error) {
                     console.error('Error fetching user details:', error);
-                    return 'Unknown User';
                 }
-
-                return data ? data.Name : 'Unknown User';
+            
+            return data;
         }
 
+        // Fetch the item details using the LostItemID from session storage and populate the HTML elements
         async function fetchItemDetails() {
             const itemId = sessionStorage.getItem('item_id');
-
+            // Check if itemId is null or undefined
             if (!itemId) {
                 console.error('ItemID not found in session storage.');
                 return;
@@ -207,27 +221,31 @@
             const { data: itemDetails, error } = await supabase
                 .from('LostItem')
                 .select('*')
-                .eq('ItemID', itemId)
+                .eq('LostItemID', itemId)
                 .single();
 
             if (error) {
                 console.error('Error fetching item details:', error);
-                return;
             }
+            
+            const userInfo = await fetchUserDetails(itemDetails.UserID);
+            const locationName = await fetchLocationName(itemDetails.LocationID);
+            const categoryName = await fetchCategoryName(itemDetails.CategoryID);
 
-            document.getElementById('item-name').textContent = `Item Name: ${itemDetails.Name}`;
+            // Populate the HTML elements with the fetched data
+            document.getElementById('item-name').textContent = `${itemDetails.Name}`;
             document.getElementById('item-image').src = itemDetails.Image || 'lost.jpg';
-            document.getElementById('item-reporter').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-category').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-date').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-location').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-description').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-reporter-acct-name').textContent = `Item Name: ${itemDetails.MessengerAccountName}`;
-            document.getElementById('item-reporter-phone').textContent = `Item Name: ${itemDetails.ItemName}`;
-            document.getElementById('item-reporter-email').textContent = `Item Name: ${itemDetails.ItemName}`;
+            document.getElementById('item-reporter').innerHTML = `<strong>Lost by:</strong> ${userInfo.Name}`;
+            document.getElementById('item-category').innerHTML = `<strong>Category:</strong> ${categoryName}`;
+            document.getElementById('item-date').innerHTML = `<strong>Date Lost:</strong> ${itemDetails.DateLost}`;
+            document.getElementById('item-location').innerHTML = `<strong>Location Lost:</strong> ${locationName}`;
+            document.getElementById('item-description').innerHTML = `<strong>Description:</strong> ${itemDetails.Description}`;
+            document.getElementById('item-reporter-acct-name').innerHTML = `<strong>Messenger Account Name:</strong> ${itemDetails.MessengerAccountName}`;
+            document.getElementById('item-reporter-phone').innerHTML = `<strong>Phone Number:</strong> ${userInfo.PhoneNumber}`;
+            document.getElementById('item-reporter-email').innerHTML = `<strong>Email:</strong> ${userInfo.Email}`;
         }
 
         fetchItemDetails();
-      </script>
+    </script>
 </body>
 </html>
