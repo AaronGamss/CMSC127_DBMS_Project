@@ -235,122 +235,134 @@
       });
   </script>
 
-  <!--script to fetch the email of the user -->
-  <script type="module">
-    import { supabase } from './supabaseClient.js'; // Make sure your supabaseClient.js is properly linked
+    <!--script to fetch the email of the user -->
+    <script type="module">
+        import { supabase } from './supabaseClient.js'; // Make sure your supabaseClient.js is properly linked
 
-    // Check if access token exists
-    const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+        // Check if access token exists
+        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
 
-    if (!token) {
-        window.location.href = 'login.html'; // If no token, force to login
-    }
-
-    // Fetch the user session
-    async function fetchUser() {
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (error) {
-            console.error("Error fetching session:", error);
-            return;
+        if (!token) {
+            window.location.href = 'login.html'; // If no token, force to login
         }
 
-        if (session && session.user) {
-            const email = session.user.email;
-            const emailDisplay = document.getElementById('email-display');
-            if (emailDisplay) {
-                emailDisplay.textContent = email;
-            }
-        } else {
-            console.error("No user session found.");
-            window.location.href = 'login.html'; 
-        }
-    }
-
-    fetchUser(); // Always fetch on page load
-
-    // Logout functionality
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            await supabase.auth.signOut();
-            localStorage.removeItem('access_token');
-            sessionStorage.removeItem('access_token');
-            window.location.href = 'login.html';
-        });
-    }
-
-    // Fetch the LocationName attribute from CampusLocation table using LocationID foreign key
-    async function fetchLocationName(locationId) {
-        const { data, error } = await supabase
-            .from('CampusLocation')
-            .select('LocationName')
-            .eq('LocationID', locationId)
-            .single();
-
-        if (error) {
-            console.error('Error fetching location name:', error);
-            return 'Unknown Location';
-        }
-
-        return data ? data.LocationName : 'Unknown Location';
-    }
-
-    // Fetch the Name attribute from User table using UserID foreign key
-    async function fetchUserName(userId) {
-        const { data, error } = await supabase
-            .from('User')
-            .select('Name')
-            .eq('UserID', userId)
-            .single();
+        // Fetch the user session
+        async function fetchUser() {
+            const { data: { session }, error } = await supabase.auth.getSession();
 
             if (error) {
-                console.error('Error fetching user name:', error);
-                return 'Unknown User';
+                console.error("Error fetching session:", error);
+                return;
             }
 
-            return data ? data.Name : 'Unknown User';
-    }
-
-    // Fetch found item listings from Supabase
-    async function fetchFoundReports() {
-        const { data: foundReports, error: foundReportsError } = await supabase
-            .from('FoundItem')
-            .select('*');
-
-        if (foundReportsError) {
-            console.error('Error fetching found item reports:', foundReportsError);
-            return;
+            if (session && session.user) {
+                const email = session.user.email;
+                const emailDisplay = document.getElementById('email-display');
+                if (emailDisplay) {
+                    emailDisplay.textContent = email;
+                }
+            } else {
+                console.error("No user session found.");
+                window.location.href = 'login.html'; 
+            }
         }
 
-        listingContainer.innerHTML = '';
-        foundReports.forEach(async (report) => {
-            const locationName = await fetchLocationName(report.LocationID);
-            const userName = await fetchUserName(report.UserID);
-            const date = report.DateFound || 'Unknown Date';
-            const card = document.createElement('div');
-            card.className = 'listing-card item-card';
-            card.innerHTML = `
-                <div class="image-placeholder">
-                  <img src="${report.Image || 'logo.png'}" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
-                </div>
-                <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                  <div>
-                  <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: ${report.Name}</p>
-                  <p class="item-reporter" style="margin-bottom: 66px;">Posted by: ${userName}</p>
-                  <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
-                  <p style="margin-bottom: 20px;">Date: ${date}</p>
-                  </div>
-                  <a href="founditemdetails.html" class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
-                </div>`;
-            listingContainer.appendChild(card);
-        });
-    }
+        fetchUser(); // Always fetch on page load
 
-  fetchFoundReports();
-  </script>
-  
-    
+        // Logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                localStorage.removeItem('access_token');
+                sessionStorage.removeItem('access_token');
+                window.location.href = 'login.html';
+            });
+        }
 
-</body>
+        // Fetch the LocationName attribute from CampusLocation table using LocationID foreign key
+        async function fetchLocationName(locationId) {
+            const { data, error } = await supabase
+                .from('CampusLocation')
+                .select('LocationName')
+                .eq('LocationID', locationId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching location name:', error);
+                return 'Unknown Location';
+            }
+
+            return data ? data.LocationName : 'Unknown Location';
+        }
+
+        // Fetch the Name attribute from User table using UserID foreign key
+        async function fetchUserName(userId) {
+            const { data, error } = await supabase
+                .from('User')
+                .select('Name')
+                .eq('UserID', userId)
+                .single();
+
+                if (error) {
+                    console.error('Error fetching user name:', error);
+                    return 'Unknown User';
+                }
+
+                return data ? data.Name : 'Unknown User';
+        }
+
+        // Store the LostID in local storage for use in lostitemdetails.html
+        function storeItemKey(itemId) {
+            sessionStorage.setItem('item_id', itemId);
+            console.log('Stored item ID:', itemId);
+        }
+
+        // Fetch found item listings from Supabase
+        async function fetchFoundReports() {
+            const { data: foundReports, error: foundReportsError } = await supabase
+                .from('FoundItem')
+                .select('*');
+
+            if (foundReportsError) {
+                console.error('Error fetching found item reports:', foundReportsError);
+                return;
+            }
+
+            listingContainer.innerHTML = '';
+            foundReports.forEach(async (report) => {
+                const locationName = await fetchLocationName(report.LocationID);
+                const userName = await fetchUserName(report.UserID);
+                const date = report.DateFound || 'Unknown Date';
+                const card = document.createElement('div');
+                card.className = 'listing-card item-card';
+                card.innerHTML = `
+                    <div class="image-placeholder">
+                        <img src="${report.Image || 'logo.png'}" alt="Found Item" class="img-fluid rounded" style="height: 100%; width: 100%; object-fit: contain;" />
+                    </div>
+                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                        <div>
+                            <p class="item-name" style="font-weight: bold; margin-bottom: 66px; margin-top: 20px;">Item Name: ${report.Name}</p>
+                            <p class="item-reporter" style="margin-bottom: 66px;">Posted by: ${userName}</p>
+                            <p class="item-location" style="margin-bottom: 66px;">Location: ${locationName}</p>
+                            <p style="margin-bottom: 20px;">Date: ${date}</p>
+                        </div>
+                        <a class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #333333; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;">More</a>
+                    </div>`;
+                listingContainer.appendChild(card);
+                // Add event listener to the "More" button to store the LostItemID and redirect to another page
+                const moreButton = card.querySelector('a');
+                moreButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    storeItemKey(report.FoundItemID);
+                    window.location.href = 'founditemdetails.html';
+                });
+            });
+        }
+
+        fetchFoundReports();
+    </script>
+
+
+    </body>
 </html>
