@@ -331,6 +331,8 @@
 
             listingContainer.innerHTML = '';
             foundReports.forEach(async (report) => {
+                const isResolved = report.Status === 'Resolved';
+                if (isResolved) return; // Skip resolved items
                 const locationName = await fetchLocationName(report.LocationID);
                 const userName = await fetchUserName(report.UserID);
                 const date = report.DateFound || 'Unknown Date';
