@@ -278,9 +278,13 @@
                 console.error('Error fetching lost item reports:', lostReportsError);
                 return;
             }
+            
 
             listingContainer.innerHTML = '';
             lostReports.forEach(async (report) => {
+                const isResolved = report.Status === 'Resolved';
+                if (isResolved) return; // Skip resolved items
+
                 const locationName = await fetchLocationName(report.LocationID);
                 const userName = await fetchUserName(report.UserID);
                 const date = report.DateLost || 'Unknown Date';
@@ -298,7 +302,7 @@
                         <a class="btn btn-sm btn-secondary d-flex justify-content-center align-items-center" style="background-color: #988f78; border-radius: 8px; font-weight: 650; height: 40px; margin-top: auto;" onclick="storeItemKey(${report.LostItemID})">More</a>
                     </div>`;
                 listingContainer.appendChild(card);
-                // Add event listener to the "More" button to store the LostItemID and redirect to another page
+
                 const moreButton = card.querySelector('a');
                 moreButton.addEventListener('click', (event) => {
                     event.preventDefault();
